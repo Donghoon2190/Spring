@@ -4,8 +4,30 @@
  
  <mapper namespace="Member"> 
 	<insert id="memberReg" parameterType="member">
-	INSERT INTO SMEMBER VALUES(#{mid},#{mpassword},#{mname},#{mphone},#{memail},#{mbirth})
+	INSERT INTO SMEMBER VALUES(#{mid},#{mpwd},#{mname},#{mphone},#{memail},#{mbirth})
 	</insert>
+	<select id="idCheck" parameterType="member" resultType="int">
+	SELECT COUNT(*) FROM SMEMBER WHERE MID=#{mid}
+	</select>
+	<select id="pwdCheck" parameterType="member" resultType="int">
+	SELECT COUNT(*) FROM SMEMBER WHERE MID=#{mid} AND MPWD=#{mpwd}
+	</select>
+	<select id="minfo" parameterType="member" resultType="member">
+	SELECT * FROM SMEMBER WHERE MID=#{mid} AND MPWD=#{mpwd} AND ROWNUM=1
+	</select>
+	<select id="memberList" parameterType="member" resultType="member">
+	SELECT * FROM SMEMBER
+	</select>
+	
+	<select id="memberdetail" parameterType="member" resultType="member">
+	SELECT * FROM SMEMBER WHERE MID = #{id}
+	</select>
+	<delete id="memberdelete" parameterType="String">
+	DELETE FROM SMEMBER WHERE MID = #{id}
+	</delete>
+	<update id="memberModify" parameterType="member">
+	UPDATE SMEMBER SET  MPWD=#{mpwd},MNAME=#{mname},MPHONE=#{mphone},MEMAIL=#{memail},MBIRTH=#{mbirth} WHERE MID=#{mid}
+	</update>
  </mapper>
  
  
