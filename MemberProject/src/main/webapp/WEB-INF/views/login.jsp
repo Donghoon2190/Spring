@@ -12,14 +12,17 @@ text-align:center;
 margin :auto;
 border: 1px solid black;
 border-collapse: collapse;
+padding: 7px;
 }
+
+
 </style>
 <body style="text-align: center;">
 <form action="logincontroll" method="post">
 <table>
 <tr> <td> 아이디  </td>  <td> <input type="text" name="mid"> </td> </tr>
 <tr> <td> 비밀번호  </td>  <td> <input type="password" name="mpwd"> </td> </tr>
-<tr> <td colspan="2"> <input type="submit" value="로그인"> </td> </tr>
+<tr> <td colspan="2"> <input type="button" value="메인으로" onclick="location.href='./'"> <input type="submit" value="로그인">  </td> </tr>
 </table>
 <span>${value}</span>
 </form>

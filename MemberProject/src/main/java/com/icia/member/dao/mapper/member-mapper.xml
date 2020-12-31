@@ -6,15 +6,19 @@
 	<insert id="memberReg" parameterType="member">
 	INSERT INTO SMEMBER VALUES(#{mid},#{mpwd},#{mname},#{mphone},#{memail},#{mbirth})
 	</insert>
+	
 	<select id="idCheck" parameterType="member" resultType="int">
 	SELECT COUNT(*) FROM SMEMBER WHERE MID=#{mid}
 	</select>
+	
 	<select id="pwdCheck" parameterType="member" resultType="int">
 	SELECT COUNT(*) FROM SMEMBER WHERE MID=#{mid} AND MPWD=#{mpwd}
 	</select>
+	
 	<select id="minfo" parameterType="member" resultType="member">
 	SELECT * FROM SMEMBER WHERE MID=#{mid} AND MPWD=#{mpwd} AND ROWNUM=1
 	</select>
+	
 	<select id="memberList" parameterType="member" resultType="member">
 	SELECT * FROM SMEMBER
 	</select>
@@ -22,12 +26,23 @@
 	<select id="memberdetail" parameterType="member" resultType="member">
 	SELECT * FROM SMEMBER WHERE MID = #{id}
 	</select>
+	
 	<delete id="memberdelete" parameterType="String">
 	DELETE FROM SMEMBER WHERE MID = #{id}
 	</delete>
+	
 	<update id="memberModify" parameterType="member">
 	UPDATE SMEMBER SET  MPWD=#{mpwd},MNAME=#{mname},MPHONE=#{mphone},MEMAIL=#{memail},MBIRTH=#{mbirth} WHERE MID=#{mid}
+	<selectKey resultType="member" keyProperty="mid,mpwd,mname,mphone,memail,mbirth" order="AFTER">
+	SELECT * FROM  SMEMBER
+	WHERE 1=1 AND MID = #{mid}
+	</selectKey> <!-- selectKey는 order에 따라 다른 구문이 실행되기전, 실행 된 후에 실행 할 수 있다.
+					  selectKey는 하나의 값만 갖고 오는데 keyProperty를 쓰면 여러 값을 가져올 수 있다.
+					  resultType을 member로해서 member로 덮어씌워 지는 것 같다.-->
 	</update>
+	<select id="CheckId" parameterType="String" resultType="int">
+	SELECT COUNT(*) FROM SMEMBER WHERE MID=#{mid}
+	</select>
  </mapper>
  
  

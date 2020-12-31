@@ -10,6 +10,9 @@ color: blue;
 a{
 text-decoration: none;
 }
+body {
+	text-align: center;
+}
 </style>
 </head>
 <body>

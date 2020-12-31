@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
 
@@ -63,14 +64,16 @@ public class memberService {
 		list.sort(new Comparator<memberDto>() {
 			@Override
 			public int compare(memberDto arg0, memberDto arg1) {
+				 boolean a = Pattern.matches("^[0-9]*$", arg0.getMid());
+				 boolean b = Pattern.matches("^[0-9]*$", arg1.getMid());
+				 System.out.println(a);
 				// TODO Auto-generated method stub
-				if (arg0.getMid().equals("ADMIN")) { return -1;
-				}else if (arg1.getMid().equals("ADMIN")) { return 0;
+				if (!a) { return -1;
+				}else if (!b) { return 0;
 				}else { return Integer.parseInt(arg0.getMid())-Integer.parseInt(arg1.getMid());
 				}
 			}
 		});
-
 		mav.addObject("memberList", list);
 		mav.setViewName("MemberList");
 		return mav;
@@ -109,18 +112,32 @@ public class memberService {
 	public ModelAndView memberModify(memberDto member) {
 		mav = new ModelAndView();
 		String id = (String)hs.getAttribute("mid");
-		int result = ma.memberModify(member);
-		if (result>0) {
+		//String 클래스 타입의 변수
+		//int 데이터 타입
+		ma.memberModify(member);
 			if (id.equals("ADMIN")) {
 				mav.setViewName("redirect:/memberList");
 			}else {
 				mav.setViewName("main");
 			}
-		}else {
-			mav.setViewName("memberList");	
-		}
 		
 		return mav;
+	}
+
+	public int CheckId(String mid) {
+		int result = ma.CheckId(mid);
+//		if (result>0) {
+//			return "no";	
+//		}else {
+//			return "ok";
+//		}
+//		
+		return result;
+	}
+
+	public memberDto ajaxdetail(String mid) {
+		memberDto member = ma.memberdetail(mid);
+		return member;
 	}
 
 }

@@ -47,9 +47,16 @@ public class memberDao {
 		return st.delete("Member.memberdelete",id);
 	}
 
-	public int memberModify(memberDto member) {
-		return st.update("Member.memberModify", member);
+	public memberDto memberModify(memberDto member) {
+		 st.update("Member.memberModify", member);
+		 System.out.println(member);
+		return member;
 		
+	}
+
+	public int CheckId(String mid) {
+		System.out.println("dao");
+		return st.selectOne("Member.CheckId",mid);
 	}
 
 }

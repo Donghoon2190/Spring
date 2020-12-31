@@ -2,6 +2,8 @@ package com.icia.member;
 
 import java.util.Locale;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.icia.member.dto.memberDto;
@@ -24,6 +27,9 @@ public class HomeController {
 	@Autowired
 	private memberService ms;
 	
+	@Autowired
+	private HttpSession hs;
+	
 	@RequestMapping(value = "/")
 	public String home() {
 		return "home";
@@ -35,6 +41,20 @@ public class HomeController {
 	@RequestMapping(value = "loginpage")
 	public String login() {
 		return "login";
+	}
+	@RequestMapping(value = "main")
+	public String main() {
+		return "main";
+	}
+	@RequestMapping(value = "logout")
+	public String logout() {
+		hs.invalidate();
+		return "home";
+	}
+	@RequestMapping(value = "CheckId")
+	public @ResponseBody int CheckId(@RequestParam String mid) {
+		System.out.println(mid);
+		return  ms.CheckId(mid);
 	}
 	@RequestMapping(value = "logincontroll", method = RequestMethod.POST )
 	public ModelAndView login(@ModelAttribute memberDto member ) {
@@ -50,6 +70,12 @@ public class HomeController {
 	public ModelAndView regmember() {
 		mav = ms.memberList();
 		return mav;
+	}
+	@RequestMapping(value = "ajaxdetail")
+	public @ResponseBody memberDto ajaxdetail(@RequestParam String mid) {
+		System.out.println(mid);
+		memberDto member = ms.ajaxdetail(mid);
+		return member;
 	}
 	@RequestMapping(value = "memberdetail")
 	public ModelAndView memberdetail(@RequestParam String id) {
