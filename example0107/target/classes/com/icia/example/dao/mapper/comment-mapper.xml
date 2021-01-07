@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="User"> 
+ 	<select id="CheckId" resultType="String" parameterType="String">
+	SELECT * FROM DHSUSER WHERE "UID" = #{uid}
+	</select> 
+	<insert id="userReg">
+	INSERT INTO DHSUSER VALUES(#{uid},#{upwd},#{uname},#{ugender},#{ubirth},#{uemail},#{uadd},#{uphone},#{uprofile})
+	</insert>
+	<select id="CheckPwd" resultType="int" parameterType="user">
+	SELECT COUNT(*) FROM DHSUSER WHERE "UID" = #{uid} AND UPWD = #{upwd}
+	</select> 
+	<select id="userInfo" resultType="user" parameterType="String">
+	SELECT * FROM DHSUSER WHERE "UID" = #{uid}
+	</select> 
+	<update id="userMod" parameterType="user">
+	UPDATE DHSUSER SET <include refid="result"></include> WHERE "UID" = #{uid}
+	</update>
+	<sql id="result">
+	<choose>
+		<when test="uprofile != null">
+		UPWD = #{upwd},UEMAIL = #{uemail},UPHONE = #{uphone},UPROFILE = #{uprofile}
+		</when>
+		<otherwise>
+		UPWD = #{upwd},UEMAIL = #{uemail},UPHONE = #{uphone}
+		</otherwise>
+	</choose>
+	</sql>
+	
+ </mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
